@@ -20,6 +20,7 @@ namespace Telegram_Bot_proba
           Console.ReadLine();
           client.StopReceiving(); //конец приёма сообщений
            
+
         }
 
         
