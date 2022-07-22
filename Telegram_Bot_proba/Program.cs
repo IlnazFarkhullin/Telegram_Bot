@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace Telegram_Bot_proba
 {
@@ -30,10 +32,34 @@ namespace Telegram_Bot_proba
             if (msg != null)// проверка на наличие сообщения
             {
                 Console.WriteLine($"Пришло сообщение с текстом {msg.Text}");//вывод пришедшего сообщения на консоль
-                //await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyToMessageId: msg.MessageId);//ответ бота
-                var stic = await client.SendStickerAsync(chatId:msg.Chat.Id, sticker: "https://smailik.ucoz.com/_ph/84/2/680018678.jpg?1658488771", replyToMessageId: msg.MessageId);//отправка стикера
+               //await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyToMessageId: msg.MessageId);//ответ бота
+              //var stic = await client.SendStickerAsync(chatId:msg.Chat.Id, sticker: "https://smailik.ucoz.com/_ph/84/2/680018678.jpg?1658488771", replyToMessageId: msg.MessageId);//отправка стикера
+              // await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyToMessageId: msg.MessageId, replyMarkup: GetButton());// тут реализована раота с кнопками(метод GetButton()). при нажатии на кпопку бот нам отвечает
+                switch (msg.Text)
+                {
+                    case "Стикер":
+                        var stic = await client.SendStickerAsync(chatId: msg.Chat.Id, sticker: "https://smailik.ucoz.com/_ph/84/2/680018678.jpg?1658488771", replyToMessageId: msg.MessageId); 
+                        break;
+                    
+                    default:
+                        await client.SendTextMessageAsync(msg.Chat.Id, "Выберите команду", replyMarkup: GetButton());
+                        break;
+                        //для отправки фото используется параметр SendPhotoAsync(photo:"путь к картинке") 
+                        
+                }
             }
 
+        }
+
+        private static IReplyMarkup GetButton()// данный метод возвращает клавиатуру который состоит из списка  кнопок
+        {
+            return new ReplyKeyboardMarkup
+            {
+                Keyboard = new List<List<KeyboardButton>> // Создаём кнопки. Один список это  один ряд кнопок
+                {
+                       new List<KeyboardButton>{new KeyboardButton { Text="Стикер"}, new KeyboardButton {Text="Good" } }
+                }
+            };
         }
     }
 }
