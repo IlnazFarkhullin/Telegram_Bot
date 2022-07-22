@@ -30,8 +30,10 @@ namespace Telegram_Bot_proba
             if (msg != null)// проверка на наличие сообщения
             {
                 Console.WriteLine($"Пришло сообщение с текстом {msg.Text}");//вывод пришедшего сообщения на консоль
-                await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyToMessageId: msg.MessageId);//ответ бота
+                //await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyToMessageId: msg.MessageId);//ответ бота
+                var stic = await client.SendStickerAsync(chatId:msg.Chat.Id, sticker: "https://smailik.ucoz.com/_ph/84/2/680018678.jpg?1658488771", replyToMessageId: msg.MessageId);//отправка стикера
             }
+
         }
     }
 }
